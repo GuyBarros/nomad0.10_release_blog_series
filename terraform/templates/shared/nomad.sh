@@ -25,15 +25,17 @@ enable_debug = true
 bind_addr = "0.0.0.0"
 datacenter = "dc1"
 region = "global"
+server_join{
 retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value} tenant_id=${tenant_id} client_id=${client_id} subscription_id=${subscription_id} secret_access_key=${client_secret} "]
+}
 advertise {
-  http = "$(public_ip):4646"
-  rpc  = "$(public_ip):4647"
-  serf = "$(public_ip):4648"
+  http = "${public_ip}:4646"
+  rpc  = "${public_ip}:4647"
+  serf = "${public_ip}:4648"
 }
 server {
   enabled          = true
-  bootstrap_expect = 3
+  bootstrap_expect = 1
 }
 client {
   enabled = true
