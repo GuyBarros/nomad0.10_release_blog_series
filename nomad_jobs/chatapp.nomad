@@ -1,5 +1,5 @@
 job "chat_docker" {
-  datacenters = ["dev-eu-west-2","dc1"]
+  datacenters = ["eu-west-2","ukwest","sa-east-1","ap-northeast-1","dc1"]
   type = "service"
   group "chat-app" {
     count = 1
@@ -30,7 +30,7 @@ job "chat_docker" {
     }
     service {
       name = "chat-app"
-      tags = ["urlprefix-/chat strip=/chat"]
+      tags = ["chat-app"]
       port = "http"
       connect {
         sidecar_service {

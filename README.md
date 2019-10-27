@@ -5,13 +5,12 @@ This repository contains examples of the following new features released in Noma
 * Host mount volumes
 * Advanced Networking
 * Consul Connect sidecar injection
-  * Consul Connect Gateways
-* Spreading
+
 
 To visualise the new features for Nomad 0.10.0 we will implement the following jobs:
 
-* **MongoDB**(Docker,service job) database
-* **Python**(raw_exec,batch job) job to add data to the mongo db
+* [**MongoDB**](https://hub.docker.com/_/mongo)(Docker,service job) database
+* [**Chat App**](https://github.com/GuyBarros/anonymouse-realtime-chat-app)(Docker,service job) nodejs frontend
 
 ### Pre Requisites
 
@@ -22,7 +21,13 @@ To visualise the new features for Nomad 0.10.0 we will implement the following j
 
 #### included enviroment
 
-in the [terraform](./terraform/) directory there is code to spin up a Azure enviroment with Nomad preconfigured. this takes about 15 minutes to get up and running correctly, after that run the consul.nomad file and then the other nomad files.
+in the [terraform](./terraform/) directory there is code to spin up an enviroment with Nomad preconfigured. this takes about 15 minutes to get up and running correctly, after that run:
+
+    1. consul.nomad
+    2. cni.nomad
+    3. envoy.nomad
+    4. mongodb.nomad
+    5. chatapp.nomad
 
 
 ---
@@ -93,8 +98,9 @@ Nomad 0.10.0 gives you a new configuration variable called **mode**. [from the d
 > **“bridge”** - Task group will have an isolated network namespace with an interface that is bridged with the host. Note that bridge networking is only currently supported for the >docker, exec, raw_exec, and java task drivers.
 > **“host”** - Each task will join the host network namespace and a shared network namespace is not created. This matches the current behavior in Nomad 0.9.
 
-In our MongoDB job, we want all traffic to go through Consul Connect. To achieve this need to configure the job to use **bridged** networking. We will need to remove the current network stanza fromt he **task** and move it to thea and move the ne.work stanza to the **group** stanza.
+In our MongoDB job, we want all traffic to go through Consul Connect. To achieve this need to configure the job to use **bridged** networking. We will need to move the network stanza from he **task** and move it to the **group** stanza.
 
+##### Mongodb.nomad:
 ```bash
 group "db" {
     count = 1
@@ -109,6 +115,16 @@ group "db" {
     ...
 ```
 
+##### chatapp.nomad:
+```bash
+ network {
+      mode = "bridge"
+      port "http" {
+        static = 9002
+        to     = 5000
+      }
+    }
+```
 Consul is HashiCorp's Service Mesh solution, as is known for its ease of use and cross datacenter capabilities. it allows services from one DC to talk to another DC seemlessly. you can read more about Consul [here](https://www.consul.io/mesh.html).
 
 Nomad jobs can have an automatic consul connect proxy injected into it, this allows any job to become mesh enabled. in the service stanzas we add the consul sidecar proxy config:
@@ -128,10 +144,24 @@ Nomad jobs can have an automatic consul connect proxy injected into it, this all
 
 in our python job, we need to add the mongodb service as an upstream:
 
-##### mongodb_data_importer.nomad:
+##### chatapp.nomad:
 
 ```bash
-
+service {
+      name = "chat-app"
+      tags = ["chat-app"]
+      port = "http"
+      connect {
+        sidecar_service {
+          proxy {
+            upstreams {
+              destination_name = "mongodb"
+              local_bind_port = 27017
+            }
+          }
+        }
+      }
+    }
 
 ```
 
@@ -139,7 +169,33 @@ in our python job, we need to add the mongodb service as an upstream:
 
 ---
 
-## Spreading
+## Result
+
+our chat application should be accessible via port 9002 from the host its running from.
+
+##### Chat App
+![Image](./assets/chat_screenshot.jpg)
+
+##### Nomad UI
+![Image](./assets/nomad_screenshot.jpg)
+
+##### Consul UI
+![Image](./assets/consul_screenshot.jpg)
+
+in Consul not only can we see all the Nomad servers and clients, we can also see the sidecar proxy (and a nifty little icon) for all the jobs we deployed with Nomad.
+
+in the next blog, we'll take this app across datacenters and look at the new Spread feature; along side some nifty layer 7 routing with Consul Connect. 
+
+#### Special thanks
+
+[Eze Sunday](https://github.com/ezesundayeze/anonymouse-realtime-chat-app) who I forked the chat app from.
+
+my friend and colleague [Lance Haig](https://github.com/lhaig/) who helped me write this.
+
+and to another good friend [Nico "el jefe" Corrarello](https://github.com/ncorrare/) who makes everything in life look easy.
+
+
+
 
 
 
