@@ -50,8 +50,8 @@ resource "azurerm_network_interface" "servers-nic" {
   count                     = var.servers
  name                      = "${var.demo_prefix}servers-nic-${count.index}"
   location                  = var.location
- resource_group_name       = "${azurerm_resource_group.vaultraft.name}"
-  network_security_group_id = "${azurerm_network_security_group.vaultraft-sg.id}"
+ resource_group_name       = "${azurerm_resource_group.nomad010.name}"
+  network_security_group_id = "${azurerm_network_security_group.nomad010-sg.id}"
 
   ip_configuration {
     name                          = "${var.demo_prefix}-${count.index}-ipconfig"
@@ -72,7 +72,7 @@ resource "azurerm_network_interface" "servers-nic" {
 resource "azurerm_subnet" "servers" {
   name                 = "${var.demo_prefix}-servers"
   virtual_network_name = "${azurerm_virtual_network.awg.name}"
-  resource_group_name  = "${azurerm_resource_group.vaultraft.name}"
+  resource_group_name  = "${azurerm_resource_group.nomad010.name}"
   address_prefix       = "10.0.30.0/24"
 }
 
@@ -83,7 +83,7 @@ resource "azurerm_public_ip" "servers-pip" {
   count               = var.servers
  name                = "${var.demo_prefix}-servers-ip-${count.index}"
   location            = var.location
- resource_group_name = "${azurerm_resource_group.vaultraft.name}"
+ resource_group_name = "${azurerm_resource_group.nomad010.name}"
   allocation_method   = "Static"
   domain_name_label   = "${var.hostname}-servers-${count.index}"
   sku                 = "Standard"
@@ -98,12 +98,12 @@ resource "azurerm_public_ip" "servers-pip" {
 }
 
 resource "azurerm_virtual_machine" "servers" {
-  count               = var.servers
+ count               = var.servers
  name                = "${var.hostname}-servers-${count.index}"
-  location            = var.location
- resource_group_name = "${azurerm_resource_group.vaultraft.name}"
-  vm_size             = var.vm_size
- availability_set_id = "${azurerm_availability_set.vm.id}"
+ location            = var.location
+ resource_group_name = azurerm_resource_group.nomad010.name
+ vm_size             = var.vm_size
+ availability_set_id = azurerm_availability_set.vm.id
 
   network_interface_ids         = ["${azurerm_network_interface.servers-nic[count.index].id}"]
   delete_os_disk_on_termination = "true"

@@ -36,11 +36,15 @@ EOF
 source /etc/profile.d/ips.sh
 
 echo "--> Updating apt-cache"
-ssh-apt update
+apt update
+
+
+echo "--> updated version of Nodejs"
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 
 echo "--> Installing common dependencies"
-ssh-apt install \
+sudo apt install \
   build-essential \
   curl \
   emacs \
@@ -59,7 +63,7 @@ ssh-apt install \
   curl \
   gnupg-agent \
   software-properties-common \
-  &>/dev/null
+  unzip \
 
 
 echo "--> Disabling checkpoint"
