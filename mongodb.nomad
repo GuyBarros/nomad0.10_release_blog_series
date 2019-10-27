@@ -1,5 +1,6 @@
 job "mongodb" {
   datacenters = ["eu-west-2","ukwest","sa-east-1","ap-northeast-1","dc1"]
+<<<<<<< HEAD
    type = "service"
     group "db" {
          count = 1

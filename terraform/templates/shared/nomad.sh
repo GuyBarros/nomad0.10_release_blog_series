@@ -28,6 +28,8 @@ region = "global"
 server_join{
 retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value} tenant_id=${tenant_id} client_id=${client_id} subscription_id=${subscription_id} secret_access_key=${client_secret} "]
 }
+
+
 advertise {
   http = "${public_ip}:4646"
   rpc  = "${public_ip}:4647"

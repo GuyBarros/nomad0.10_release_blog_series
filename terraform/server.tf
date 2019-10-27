@@ -105,6 +105,8 @@ resource "azurerm_virtual_machine" "servers" {
  vm_size             = var.vm_size
  availability_set_id = azurerm_availability_set.vm.id
 
+
+
   network_interface_ids         = ["${azurerm_network_interface.servers-nic[count.index].id}"]
   delete_os_disk_on_termination = "true"
   delete_data_disks_on_termination = "true"
