@@ -96,38 +96,38 @@ variable "servers" {
 }
 
 variable "owner" {
-description = "IAM user responsible for lifecycle of cloud resources used for training"
+  description = "IAM user responsible for lifecycle of cloud resources used for training"
 }
 
 variable "created-by" {
-description = "Tag used to identify resources created programmatically by Terraform"
-default     = "Terraform"
+  description = "Tag used to identify resources created programmatically by Terraform"
+  default     = "Terraform"
 }
 
 variable "TTL" {
-description = "Hours after which resource expires, used by reaper. Do not use any unit. -1 is infinite."
-default     = "240"
+  description = "Hours after which resource expires, used by reaper. Do not use any unit. -1 is infinite."
+  default     = "240"
 }
 
 variable "subscription_id" {
-description = "your subscription ID for Vault KMS Auto Unseal"
+  description = "your subscription ID for Vault KMS Auto Unseal"
 }
 
 variable "tenant_id" {
-description = "your tenant ID for Vault KMS Auto Unseal"
+  description = "your tenant ID for Vault KMS Auto Unseal"
 }
 
 variable "client_id" {
-description = "your client ID for Vault KMS Auto Unseal"
+  description = "your client ID for Vault KMS Auto Unseal"
 }
 
 variable "client_secret" {
-description = "your client ID for Vault KMS Auto Unseal"
+  description = "your client ID for Vault KMS Auto Unseal"
 }
 
 variable "namespace" {
-description = "Namespace"
-default     = "nomad10"
+  description = "Namespace"
+  default     = "nomad10"
 }
 
 variable "nomad_url" {
@@ -141,14 +141,14 @@ variable "cni_plugin_url" {
   default     = "https://github.com/containernetworking/plugins/releases/download/v0.8.2/cni-plugins-linux-amd64-v0.8.2.tgz"
 }
 
- variable "nomad_join_tag_name"{
+variable "nomad_join_tag_name" {
   description = "The Resource tag name that nomad will look for in order to do Auto Join"
   default     = "Nomad"
 
- }  
- variable "nomad_join_tag_value"{
+}
+variable "nomad_join_tag_value" {
   description = "The Resource tag value that nomad will look for in order to do Auto Join"
   default     = "0.10demo"
-  
- }
+
+}
 

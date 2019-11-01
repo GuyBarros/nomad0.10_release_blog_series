@@ -1,39 +1,39 @@
 provider "azurerm" {
-  subscription_id        = var.subscription_id
- tenant_id              = var.tenant_id
- client_id           = var.client_id
- client_secret       = var.client_secret
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
 }
 
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_availability_set" "vm" {
   # count                          = var.servers
- name                         = "${var.demo_prefix}-aval-set"
+  name                         = "${var.demo_prefix}-aval-set"
   location                     = var.location
- resource_group_name          = azurerm_resource_group.nomad010.name
+  resource_group_name          = azurerm_resource_group.nomad010.name
   platform_fault_domain_count  = 2
   platform_update_domain_count = 2
   managed                      = true
 
-   tags = {
-    name      = var.owner
-    TTL       = var.TTL
-    owner     = var.owner
+  tags = {
+    name                         = var.owner
+    TTL                          = var.TTL
+    owner                        = var.owner
     "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
- }
+  }
 }
 
 resource "azurerm_resource_group" "nomad010" {
   name     = var.resource_group
- location = "${var.location}"
+  location = "${var.location}"
 
   tags = {
-    name      = var.owner
-    TTL       = var.TTL
-    owner     = var.owner
+    name                         = var.owner
+    TTL                          = var.TTL
+    owner                        = var.owner
     "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
- }
+  }
 }
 
 
@@ -44,25 +44,25 @@ resource "azurerm_virtual_network" "awg" {
   resource_group_name = "${azurerm_resource_group.nomad010.name}"
 
   tags = {
-    name      = var.owner
-    TTL       = var.TTL
-    owner     = var.owner
-     "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
- }
+    name                         = var.owner
+    TTL                          = var.TTL
+    owner                        = var.owner
+    "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
+  }
 }
 
 resource "azurerm_network_security_group" "nomad010-sg" {
   name                = "${var.demo_prefix}-sg"
   location            = var.location
- resource_group_name = "${azurerm_resource_group.nomad010.name}"
+  resource_group_name = "${azurerm_resource_group.nomad010.name}"
 
   tags = {
-    name      = var.owner
-    TTL       = var.TTL
-    owner     = var.owner
-     "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
-    
- }
+    name                         = var.owner
+    TTL                          = var.TTL
+    owner                        = var.owner
+    "${var.nomad_join_tag_name}" = "${var.nomad_join_tag_value}"
+
+  }
 
   security_rule {
     name                       = "nomad010-https"
@@ -76,7 +76,7 @@ resource "azurerm_network_security_group" "nomad010-sg" {
     destination_address_prefix = "*"
   }
 
-  
+
   security_rule {
     name                       = "nomad010-ssh"
     priority                   = 102
