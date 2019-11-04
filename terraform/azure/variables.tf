@@ -132,7 +132,7 @@ variable "namespace" {
 
 variable "nomad_url" {
   description = "The url to download nomad."
-  default     = "https://releases.hashicorp.com/nomad/0.10.0-rc1/nomad_0.10.0-rc1_linux_amd64.zip"
+  default     = "https://releases.hashicorp.com/nomad/0.10.0/nomad_0.10.0_linux_amd64.zip"
 }
 
 

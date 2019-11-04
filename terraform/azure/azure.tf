@@ -12,8 +12,8 @@ resource "azurerm_availability_set" "vm" {
   name                         = "${var.demo_prefix}-aval-set"
   location                     = var.location
   resource_group_name          = azurerm_resource_group.nomad010.name
-  platform_fault_domain_count  = 2
-  platform_update_domain_count = 2
+  platform_fault_domain_count  = 1
+  platform_update_domain_count = 1
   managed                      = true
 
   tags = {

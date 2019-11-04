@@ -45,6 +45,7 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 echo "--> Installing common dependencies"
 sudo apt install \
+  nodejs \
   build-essential \
   curl \
   emacs \
@@ -57,13 +58,11 @@ sudo apt install \
   tree \
   python3-pip \
   ruby-full \
-  npm \
   apt-transport-https \
   ca-certificates \
   curl \
   gnupg-agent \
-  software-properties-common \
-  unzip \
+  software-properties-common 
 
 
 echo "--> Disabling checkpoint"

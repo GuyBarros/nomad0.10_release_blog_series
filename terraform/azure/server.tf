@@ -97,6 +97,13 @@ resource "azurerm_public_ip" "servers-pip" {
   }
 }
 
+resource "azurerm_user_assigned_identity" "nomad010" {
+  resource_group_name = "${azurerm_resource_group.nomad010.name}"
+  location            = "${azurerm_resource_group.nomad010.location}"
+
+  name = "${var.hostname}-nomad010-vm"
+}
+
 resource "azurerm_virtual_machine" "servers" {
   count               = var.servers
   name                = "${var.hostname}-servers-${count.index}"

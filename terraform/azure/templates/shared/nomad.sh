@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 echo "==> Nomad (server)"
 
+echo "==> reinstalling unzip?"
+sudo apt install unzip
+
 echo "--> Fetching"
 install_from_url "nomad" "${nomad_url}"
 sleep 10
@@ -22,15 +25,10 @@ sudo tee /etc/nomad.d/config.hcl > /dev/null <<EOF
 name         = "${node_name}"
 data_dir     = "/mnt/nomad"
 enable_debug = true
-bind_addr = "0.0.0.0"
 datacenter = "dc1"
 region = "global"
-server_join{
-retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value} tenant_id=${tenant_id} client_id=${client_id} subscription_id=${subscription_id} secret_access_key=${client_secret} "]
-}
-
-
-advertise {
+bind_addr = "0.0.0.0"
+ advertise {
   http = "${public_ip}:4646"
   rpc  = "${public_ip}:4647"
   serf = "${public_ip}:4648"
@@ -38,6 +36,9 @@ advertise {
 server {
   enabled          = true
   bootstrap_expect = 3
+  server_join{
+retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value} tenant_id=${tenant_id} client_id=${client_id} subscription_id=${subscription_id} secret_access_key=${client_secret} "]
+ }
 }
 client {
   enabled = true
