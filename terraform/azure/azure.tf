@@ -108,14 +108,38 @@ resource "azurerm_network_security_group" "nomad010-sg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "4000-4999"
+    destination_port_range     = "4000-5999"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "nomad010-consul"
+    priority                   = 105
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8000-9999"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "nomad010-dynamic"
+    priority                   = 106
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "19000-32999"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
   security_rule {
     name                       = "outbound"
-    priority                   = 105
+    priority                   = 107
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "Tcp"

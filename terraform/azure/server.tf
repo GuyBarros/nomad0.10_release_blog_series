@@ -96,13 +96,57 @@ resource "azurerm_public_ip" "servers-pip" {
 
   }
 }
-
+/*
 resource "azurerm_user_assigned_identity" "nomad010" {
   resource_group_name = "${azurerm_resource_group.nomad010.name}"
   location            = "${azurerm_resource_group.nomad010.location}"
 
   name = "${var.hostname}-nomad010-vm"
 }
+
+data "azurerm_subscription" "primary" {}
+
+resource "azurerm_role_definition" "nomad010" {
+  name        = "my-custom-role"
+  scope       = "${data.azurerm_subscription.primary.id}"
+  description = "This is a custom role created via Terraform"
+
+  permissions {
+    actions     = ["*"]
+    not_actions = []
+  }
+
+  assignable_scopes = [
+    "${data.azurerm_subscription.primary.id}", # /subscriptions/00000000-0000-0000-0000-000000000000
+  ]
+}
+*/
+////////////////////////////////////////////////
+data "azurerm_subscription" "primary" {}
+
+data "azurerm_client_config" "test" {}
+
+resource "azurerm_role_definition" "test" {
+  name               = "my-custom-role-definition"
+  scope              = "${data.azurerm_subscription.primary.id}"
+
+  permissions {
+    actions     = ["Microsoft.Network/networkInterfaces"]
+    not_actions = []
+  }
+
+  assignable_scopes = [
+    "${data.azurerm_subscription.primary.id}",
+  ]
+}
+
+resource "azurerm_role_assignment" "test" {
+  scope              = "${data.azurerm_subscription.primary.id}"
+  role_definition_id = "${azurerm_role_definition.test.id}"
+  principal_id       = "${data.azurerm_client_config.test.service_principal_object_id}"
+}
+
+///////////////////////////////////////////////
 
 resource "azurerm_virtual_machine" "servers" {
   count               = var.servers

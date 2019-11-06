@@ -37,7 +37,7 @@ server {
   enabled          = true
   bootstrap_expect = 3
   server_join{
-retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value} tenant_id=${tenant_id} client_id=${client_id} subscription_id=${subscription_id} secret_access_key=${client_secret} "]
+retry_join = ["provider=azure tag_name=${nomad_join_tag_name}  tag_value=${nomad_join_tag_value}  "]
  }
 }
 client {
@@ -82,10 +82,7 @@ sudo tee /etc/profile.d/nomad.sh > /dev/null <<"EOF"
 alias noamd="nomad"
 alias nomas="nomad"
 alias nomda="nomad"
-export NOMAD_ADDR="https://${node_name}.node.consul:4646"
-export NOMAD_CACERT="/usr/local/share/ca-certificates/01-me.crt"
-export NOMAD_CLIENT_CERT="/etc/ssl/certs/me.crt"
-export NOMAD_CLIENT_KEY="/etc/ssl/certs/me.key"
+
 EOF
 source /etc/profile.d/nomad.sh
 
