@@ -13,7 +13,7 @@ job "consul-deployment" {
         data = <<EOH
 echo "--> Installing Consul binary"
 whoami
-wget -O consul.zip https://releases.hashicorp.com/consul/1.6.1+ent/consul_1.6.1+ent_linux_amd64.zip
+wget -O consul.zip https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip
 unzip consul.zip -d /usr/local/bin
 EOH
         destination = "consul_install.sh"

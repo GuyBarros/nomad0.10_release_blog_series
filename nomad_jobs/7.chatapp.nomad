@@ -30,7 +30,7 @@ job "chat_docker" {
     }
     service {
       name = "chat-app"
-      tags = ["chat-app","urlprefix-/chat strip=/chat"]
+      tags = ["chat-app"]
       port = "http"
       connect {
         sidecar_service {
