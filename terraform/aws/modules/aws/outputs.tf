@@ -9,3 +9,7 @@ output "servers_ui" {
 output "workers" {
   value = "${formatlist("ssh -i ~/.ssh/hashi ubuntu@%s" ,aws_instance.nomad_worker.*.public_dns)}"
 }
+
+output "workers_ui" {
+  value = "${formatlist("http://%s:4646" ,aws_instance.nomad_worker.*.public_dns)}"
+}

@@ -1,5 +1,5 @@
 job "consul-server" {
-  datacenters = ["eu-west-2","ukwest","sa-east-1","ap-northeast-1","dc1"]
+  datacenters = ["eu-west-2","ukwest","sa-east-1","ap-northeast-1","dc1","dc1-eu-west-2"]
   type        = "system"
   group "consul-servers" {
     task "consul" {
