@@ -1,4 +1,4 @@
-# Nomad 0.10.0 - just the new bits
+# Nomad 0.10 - just the new bits
 
 This repository contains examples of the following new features released in Nomad 0.10.0:
 
@@ -14,20 +14,23 @@ To visualise the new features for Nomad 0.10.0 we will implement the following j
 
 ### Pre Requisites
 
-* Nomad 0.10.0 cluster
+* Nomad 0.10.x cluster
 * Consul cluster with connect enabled.
 * CNI [plugins](https://github.com/containernetworking/plugins/releases/tag/v0.8.2) and installed in `/opt/cni/bin`
 * Docker (Nomad launches a Consul Connect Envoy sidecar using the official Envoy [docker container](https://hub.docker.com/u/envoyproxy))
 
 #### included enviroment
 
-in the [terraform](./terraform/) directory there is code to spin up an enviroment with Nomad preconfigured. this takes about 15 minutes to get up and running correctly, after that run:
+in the [terraform](./terraform/) directory there is code to spin up an environment with Nomad preconfigured. this takes a couple of minutes to get up and running correctly, after that, from the nomad_jobs directory, run:
 
-    1. consul.nomad
-    2. cni.nomad
-    3. envoy.nomad
-    4. mongodb.nomad
-    5. chatapp.nomad
+
+   1. cni_bash.nomad
+   2. consul_bash.nomad
+   3. envoy_bash.nomad
+   4. consul.nomad
+   5. consul.nomad
+   6. mongodb.nomad
+   7. chatapp.nomad
 
 
 ---
