@@ -14,7 +14,7 @@ job "cni-deployment" {
 echo "--> Installing CNI plugin"
 whoami
 mkdir -p /opt/cni/bin/
-wget -O cni.tgz https://github.com/containernetworking/plugins/releases/download/v0.8.2/cni-plugins-linux-amd64-v0.8.2.tgz
+wget -O cni.tgz https://github.com/containernetworking/plugins/releases/download/v0.8.5/cni-plugins-linux-amd64-v0.8.5.tgz
 tar -xzf cni.tgz -C /opt/cni/bin/
 EOH
         destination = "cni_install.sh"

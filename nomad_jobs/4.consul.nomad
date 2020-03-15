@@ -7,7 +7,7 @@ job "consul-server" {
       config {
         force_pull   = true
         network_mode = "host"
-        image        = "consul:1.6.1"
+        image        = "consul:1.7.1"
         command      = "consul"
         args         = ["agent", "-config-dir", "/consul/config"]
         volumes      = ["local/consul/server.hcl:/consul/config/server.hcl"]

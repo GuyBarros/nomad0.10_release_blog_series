@@ -178,17 +178,17 @@ service {
 Our chat application should be accessible via port 9002 from the host its running from.
 
 ##### Chat App
-![Image](./assets/chat_screenshot.jpg)
+![Image](./assets/chat_screenshot.webp)
 
 ##### Nomad UI
-![Image](./assets/nomad_screenshot.jpg)
+![Image](./assets/nomad_screenshot.webp)
 
 ##### Consul UI
-![Image](./assets/consul_screenshot.jpg)
+![Image](./assets/consul_screenshot.webp)
 
 In Consul not only can we see all the Nomad servers and clients, we can also see the sidecar proxy (and a nifty little icon) for all the jobs we deployed with Nomad.
 
-In the next blog, we'll take this app across datacenters and look at the new Spread feature; along side some nifty layer 7 routing with Consul Connect. 
+In the next blog, we'll take this app across datacenters and look at the new Spread feature; along side some nifty layer 7 routing with Consul Connect.
 
 #### Special thanks
 
